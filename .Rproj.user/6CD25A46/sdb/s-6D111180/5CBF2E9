@@ -1,0 +1,17 @@
+{
+    "contents" : "## > x <- matrix(c(-76, 8, 76, 8), nrow = 2) // create a matrix x\n## > cx <- makeCacheMatrix(x) // create the special matrix\n## > cx$get() // Return the matrix\n## > cacheSolve(cx) // Return the inverse\n## > cacheSolve(cx) // Call 2nd time to return the cached matrix\n\n\n## makeCacheMatrix: returns a list of functions that do as follows:\n## 1. Set the value of the matrix\n## 2. Get the value of the matrix\n## 3. Set the value of the inverse\n## 4. Get the value of the inverse\n\nmakeCacheMatrix <- function(x = matrix()) {\n        # create inv to store the inverse of the cached matrix\n        inv <- NULL\n        \n        # set the matrix\n        set <- function(y) {\n                x <<- y\n                inv <<- NULL\n        }\n        \n        # get the matrix\n        get <- function() x\n        \n        # set the inverse\n        setinv <- function(inverse) inv <<- inverse\n        \n        # get the inverse\n        getinv <- function() inv\n        \n        # return matrics with above defined functions\n        list(set = set, get = get, setinv = setinv, getinv = getinv)\n        \n}\n\n## cacheSolve: computes the inverse. Returns the cached inverse if it has already been calculated.\n\ncacheSolve <- function(x, ...) {\n        inv <- x$getinv()\n        \n        # If inverse already calc'ed, return it\n        if(!is.null(inv)) {\n                message(\"getting cached data\")\n                return(inv)\n        }\n        \n        # If the invers is not calced already, we will calc it      \n        data <- x$get()\n        inv <- solve(data, ...)\n        \n        # Cache the inverse\n        x$setinv(inv)\n        \n        # Return the inverse\n        inv\n}\n",
+    "created" : 1426773206258.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3708631014",
+    "id" : "5CBF2E9",
+    "lastKnownWriteTime" : 160808496,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,16 @@
+{
+    "contents" : "# Matrix inversion is usually a costly computation and there may be some benefit\n# to caching the inverse of a matrix rather than compute it repeatedly. The\n# following two functions are used to cache the inverse of a matrix.\n\n# makeCacheMatrix eturns a list of functions that do as follows:\n# 1. set the value of the matrix\n# 2. get the value of the matrix\n# 3. set the value of inverse of the matrix\n# 4. get the value of inverse of the matrix\nmakeCacheMatrix <- function(x = matrix()) {\n        # create inv to store the inverse of the cached matrix\n        inv <- NULL\n        \n        # set the matrix\n        set <- function(y) {\n                x <<- y\n                inv <<- NULL\n        }\n        \n        # get the matrix\n        get <- function() x\n        \n        # set the inverse\n        setinverse <- function(inverse) inv <<- inverse\n        \n        # get the inverse\n        getinverse <- function() inv\n        \n        # return matrics with above defined functions\n        list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)\n}\n\n\n## cacheSolve: computes the inverse. Returns the cached inverse if it has already been calculated.\ncacheSolve <- function(x, ...) {\n        inv <- x$getinverse()\n        \n        # If inverse already calc'ed, return it\n        if(!is.null(inv)) {\n                message(\"getting cached data.\")\n                return(inv)\n        }\n        \n        # If the invers is not calced already, we will calc it      \n        data <- x$get()\n        inv <- solve(data)\n        x$setinverse(inv)\n        inv\n}\n\n## Test values\n## > x <- rbind(c(-76, 8), c(8, -76))   // matrix values\n## > m <- makeCacheMatrix(x)            // create the special matrix\n## > m$get()                            // return the matrix\n## [,1] [,2]\n## [1,]  -76    8\n## [2,]    8  -76\n\n## first run (no cache)\n## > cacheSolve(m)\n## [,1]        [,2]\n## [1,] -0.01330532 -0.00140056\n## [2,] -0.00140056 -0.01330532\n\n## second run retrieving the cache\n## > cacheSolve(m)\n## getting cached data.\n## [,1]        [,2]\n## [1,] -0.01330532 -0.00140056\n## [2,] -0.00140056 -0.01330532",
+    "created" : 1426773390781.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "328526118",
+    "id" : "F583C38D",
+    "lastKnownWriteTime" : 1426775252,
+    "path" : "C:/Users/lacey.gray/datasciencecoursera/Assignment2/ProgrammingAssignment2/cachematrix.R",
+    "project_path" : "cachematrix.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
